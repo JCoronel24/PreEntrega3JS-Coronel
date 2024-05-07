@@ -30,7 +30,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // Obtener los datos guardados o inicializarlos si no hay ninguno
     let storedCamiones = JSON.parse(localStorage.getItem('camiones')) || camiones;
 
-    // Mostrar los camiones guardados
     mostrarCamiones(storedCamiones);
 });
 
@@ -87,7 +86,6 @@ function mostrarCamiones(camiones) {
         containerCamiones.appendChild(camionElemento);
     });
 
-    // Actualizar botones eliminar
     actualizarBotonesEliminar();
 }
 
@@ -99,7 +97,7 @@ function filtrarCamiones() {
     let camionesFiltrados = camiones.filter(camion => {
         let modeloCamion = camion.modelo.toLowerCase();
         let marcaCamion = camion.marca.toLowerCase();
-        let anoCamion = camion.año.toString(); // Convertir año a string para comparación
+        let anoCamion = camion.año.toString(); 
 
         return modeloCamion.includes(filtro) || marcaCamion.includes(filtro) || anoCamion.includes(filtro);
     });
