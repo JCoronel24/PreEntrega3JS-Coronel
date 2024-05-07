@@ -1,118 +1,142 @@
-// Función para cargar los camiones desde el almacenamiento local
-function cargarCamiones() {
-    const camionesGuardados = localStorage.getItem('camiones');
-    if (camionesGuardados) {
-        return JSON.parse(camionesGuardados);
-    } else {
-        return [];
+let camiones = [
+    {
+        marca: 'Mercedes-Benz',
+        modelo: 'Actros',
+        url: 'https://panel.construproductos.com/images/thumbnails/65ef8047bad26.jpg',
+        año: 2019
+    },
+    {
+        marca: 'Volvo',
+        modelo: 'FH',
+        url : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPeeSVZyKSVhLc6gS07VEqcwFngCbEaawtGOLZ53jgmg&s',
+        año: 2018
+    },
+    {
+        marca: 'Scania',
+        modelo: 'S500',
+        url : 'https://img.remediosdigitales.com/809da4/toyota-camion-fcev-1/200_200.jpeg',
+        año: 2020
+    },
+    {
+        marca: 'Mercedes-Benz',
+        modelo: 'Atego',
+        url : 'https://es-data.manualslib.com/product-images/5a3/212078/200x200/komatsu-hm400-3m0-camiones.jpg',
+        año: 2017
     }
-}
+];
 
-// Función para guardar los camiones en el almacenamiento local
-function guardarCamiones(camiones) {
-    localStorage.setItem('camiones', JSON.stringify(camiones));
-}
+// Obtener los datos guardados del almacenamiento local al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    // Obtener los datos guardados o inicializarlos si no hay ninguno
+    let storedCamiones = JSON.parse(localStorage.getItem('camiones')) || camiones;
 
-// Función para agregar un nuevo camión
-function agregarCamion(camion) {
-    const camiones = cargarCamiones();
+    // Mostrar los camiones guardados
+    mostrarCamiones(storedCamiones);
+});
+
+// Elementos del DOM
+let containerCamiones = document.getElementById('Camiones'); 
+let inputModeloCamion = document.getElementById('modeloCamion');
+let inputUrlCamion = document.getElementById('urlCamion');
+let inputMarcaCamion = document.getElementById('marcaCamion');
+let inputAnoCamion = document.getElementById('anoCamion');
+let button = document.getElementById('agregar');
+
+// Event listener para el botón de agregar
+button.addEventListener("click", agregarCamion);
+
+// Función para agregar un camión
+function agregarCamion () {
+    let camion = {
+        marca: inputMarcaCamion.value,
+        modelo: inputModeloCamion.value,
+        url: inputUrlCamion.value,
+        año: inputAnoCamion.value
+    }
+
+    // Agregar el camión a la lista
     camiones.push(camion);
-    guardarCamiones(camiones);
+
+    // Guardar los camiones en el almacenamiento local
+    localStorage.setItem('camiones', JSON.stringify(camiones));
+
+    // Limpiar inputs
+    inputModeloCamion.value = '';
+    inputUrlCamion.value = '';
+    inputMarcaCamion.value = '';
+    inputAnoCamion.value = '';
+
+    // Actualizar visualización camiones
+    mostrarCamiones(camiones);
 }
 
-// Función para filtrar camiones por marca
-function filtrarPorMarca(marca) {
-    const camiones = cargarCamiones();
-    return camiones.filter(camion => camion.marca.toLowerCase() === marca.toLowerCase());
-}
-
-// Función para filtrar camiones por modelo
-function filtrarPorModelo(modelo) {
-    const camiones = cargarCamiones();
-    return camiones.filter(camion => camion.modelo.toLowerCase() === modelo.toLowerCase());
-}
-
-// Función para filtrar camiones por año
-function filtrarPorAño(año) {
-    const camiones = cargarCamiones();
-    return camiones.filter(camion => camion.año === año);
-}
-
-// Función para mostrar camiones en la interfaz de usuario
+// Función para mostrar los camiones
 function mostrarCamiones(camiones) {
-    const listaCamiones = document.getElementById('listaCamiones');
-    listaCamiones.innerHTML = ''; // Limpiar la lista antes de agregar los camiones filtrados
+    containerCamiones.innerHTML = '';
 
     camiones.forEach(camion => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `Marca: ${camion.marca}, Modelo: ${camion.modelo}, Año: ${camion.año}`;
-        listaCamiones.appendChild(listItem);
+        const camionElemento = document.createElement('div');
+        camionElemento.classList.add('camion');
+        camionElemento.innerHTML = `
+            <h2>${camion.modelo}</h2>
+            <img src=${camion.url}></img>
+            <p>Marca: ${camion.marca}</p>
+            <p>Año: ${camion.año}</p>
+            <button id=${camion.modelo}>Eliminar</button>
+        `;
+        containerCamiones.appendChild(camionElemento);
     });
+
+    // Actualizar botones eliminar
+    actualizarBotonesEliminar();
 }
 
-// Función para manejar el evento de clic en el botón "Filtrar Camiones"
-function manejarFiltrarCamiones() {
-    const criterio = document.getElementById('criterio').value;
-    const valor = document.getElementById('valor').value;
+// Función para filtrar los camiones
+function filtrarCamiones() {
+    let filtro = filtroCamionesInput.value.trim().toLowerCase();
 
-    let camionesFiltrados = [];
+    // Filtrar camiones basado en el filtro
+    let camionesFiltrados = camiones.filter(camion => {
+        let modeloCamion = camion.modelo.toLowerCase();
+        let marcaCamion = camion.marca.toLowerCase();
+        let anoCamion = camion.año.toString(); // Convertir año a string para comparación
 
-    switch (criterio) {
-        case 'marca':
-            camionesFiltrados = filtrarPorMarca(valor);
-            break;
-        case 'modelo':
-            camionesFiltrados = filtrarPorModelo(valor);
-            break;
-        case 'año':
-            camionesFiltrados = filtrarPorAño(parseInt(valor));
-            break;
-        default:
-            // Opción inválida
-            break;
-    }
+        return modeloCamion.includes(filtro) || marcaCamion.includes(filtro) || anoCamion.includes(filtro);
+    });
 
-    // Mostrar los camiones filtrados en la interfaz de usuario
+    // Mostrar los camiones filtrados
     mostrarCamiones(camionesFiltrados);
 }
 
-// Función para manejar el evento de clic en el botón "Agregar Camión"
-function manejarAgregarCamion() {
-    const marca = document.getElementById('marca').value;
-    const modelo = document.getElementById('modelo').value;
-    const año = document.getElementById('año').value;
+let filtroCamionesInput = document.getElementById('filtroCamiones');
+filtroCamionesInput.addEventListener('input', filtrarCamiones);
 
-    const nuevoCamion = {
-        marca: marca,
-        modelo: modelo,
-        año: año
-    };
+// Función para eliminar un camión
+function eliminarCamion(event) {
+    let modelo = event.target.id;
 
-    agregarCamion(nuevoCamion);
+    // Filtrar los camiones para eliminar el camión correspondiente
+    camiones = camiones.filter(camion => camion.modelo !== modelo);
 
-    // Limpiar el formulario después de agregar el camión
-    document.getElementById('marca').value = '';
-    document.getElementById('modelo').value = '';
-    document.getElementById('año').value = '';
+    // Guardar los camiones actualizados en el almacenamiento local
+    localStorage.setItem('camiones', JSON.stringify(camiones));
 
-    // Actualizar la lista de camiones mostrada en la interfaz de usuario
-    manejarFiltrarCamiones();
+    // Actualizar visualización camiones
+    mostrarCamiones(camiones);
 }
 
-// Función para inicializar la página
-function inicializar() {
-    // Agregar oyentes de eventos
-    document.getElementById('filtrarCamionesBtn').addEventListener('click', manejarFiltrarCamiones);
-    document.getElementById('agregarCamionBtn').addEventListener('click', manejarAgregarCamion);
-
-    // Mostrar todos los camiones al cargar la página
-    manejarFiltrarCamiones();
+// Función para actualizar los eventos de los botones eliminar
+function actualizarBotonesEliminar() {
+    let botonesEliminar = document.querySelectorAll('button');
+    botonesEliminar.forEach(boton => {
+        boton.addEventListener('click', eliminarCamion);
+    });
 }
 
-// Ejecutar la función de inicialización cuando la página esté lista
-document.addEventListener('DOMContentLoaded', inicializar);
 
 
 
-// limpiar local storage
-// localStorage.clear();
+
+
+
+
