@@ -37,6 +37,7 @@ let button = document.getElementById('agregar')
 // Event listener para el botón de agregar
 button.addEventListener("click", agregarCamion)
 
+
 // Función para mostrar un toast
 function mostrarToast(mensaje, tipo) {
     Toastify({
@@ -44,8 +45,8 @@ function mostrarToast(mensaje, tipo) {
         duration: 3000,
         gravity: "top",
         position: "right",
-        backgroundColor: tipo === 'error' ? "#FF0000" : "#00C851",
-        stopOnFocus: true
+        backgroundColor: tipo == '1' ? "#FF0000" : "#00C851",
+        // stopOnFocus: true
     }).showToast()
 }
 
@@ -71,15 +72,18 @@ function agregarCamion () {
     inputMarcaCamion.value = ''
     inputAnoCamion.value = ''
 
+
+    mostrarToast('Camión agregado exitosamente!', '2')
     // Actualizar visualización camiones
     mostrarCamiones(camiones)
 
     // Mostrar mensaje de éxito
-    mostrarToast('Camión agregado exitosamente!', 'success')
+    
+    
     }
     else {
     // Mostrar mensaje de error
-        mostrarToast('Por favor, llene todos los campos', 'error')
+        mostrarToast('Por favor, llene todos los campos', '1')
     }
 }
 
@@ -142,7 +146,9 @@ function eliminarCamion(event) {
     localStorage.setItem('camiones', JSON.stringify(camiones))
 
     // Actualizar visualización camiones
+    mostrarToast('Camión eliminado exitosamente!', 'success')
     mostrarCamiones(camiones)
+    
 }
 
 
