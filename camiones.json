@@ -1,0 +1,26 @@
+[
+    {
+        "marca": "Mercedes-Benz",
+        "modelo": "Actros",
+        "url": "https://panel.construproductos.com/images/thumbnails/65ef8047bad26.jpg",
+        "año": 2019
+    },
+    {
+        "marca": "Volvo",
+        "modelo": "FH",
+        "url" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPeeSVZyKSVhLc6gS07VEqcwFngCbEaawtGOLZ53jgmg&s",
+        "año": 2018
+    },
+    {
+        "marca": "Scania",
+        "modelo": "S500",
+        "url" : "https://img.remediosdigitales.com/809da4/toyota-camion-fcev-1/200_200.jpeg",
+        "año": 2020
+    },
+    {
+        "marca": "Mercedes-Benz",
+        "modelo": "Atego",
+        "url" : "https://es-data.manualslib.com/product-images/5a3/212078/200x200/komatsu-hm400-3m0-camiones.jpg",
+        "año": 2017
+    }
+]

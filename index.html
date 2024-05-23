@@ -4,37 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparador de Camiones</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <section>
         <input type="text" id="filtroCamiones" placeholder="Buscar camiones...">
     </section>    
-    <!-- <h1>Comparador de Camiones</h1>
-    <div id="formulario">
-        <label for="criterio">Selecciona el criterio de filtrado:</label>
-        <select id="criterio">
-            <option value="marca">Marca</option>
-            <option value="modelo">Modelo</option>
-            <option value="año">Año</option>
-        </select>
-        <input type="text" id="valor" placeholder="Ingresa el valor...">
-        <button id="filtrarCamionesBtn">Filtrar Camiones</button>
-    </div>
-
-    <div id="agregarCamionForm">
-        <h2>Agregar Nuevo Camión</h2>
-        <label for="marca">Marca:</label>
-        <input type="text" id="marca">
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo">
-        <label for="año">Año:</label>
-        <input type="text" id="año">
-        <button id="agregarCamionBtn">Agregar Camión</button>
-    </div>
-
-    <ul id="listaCamiones"></ul> -->
-
+    
     <section class="addCamion">
         <input id="modeloCamion" placeholder="Modelo de tu camion..." type="text">
         <input id="urlCamion" placeholder="Url imagen de tu camion (200x200)..." type="text">
@@ -46,6 +23,8 @@
 
     <div id="Camiones" class="containerCamiones"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
+
 </html>
